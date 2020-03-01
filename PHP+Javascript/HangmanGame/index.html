@@ -1,30 +1,4 @@
 <!DOCTYPE html>
-<!--
-CHANGE LOG:
-
-INITIAL PROPOSITION - DATA DESCRIPTION:
-- ALL databases involved have an ID of some sort; each entry is separated by a primary key; this allows for easier management internally.
-- users.sql: password varchar length changed from (20) to (61) to accomodate for default password hashing techniques.
-- users.sql, gamesession.sql, history.sql: 'username' field renamed to 'user' for management purposes.
-- users.sql: 'password' field renamed to 'pw' to avoid errors with reserved keywords in SQL.
-
-INITIAL PROPOSITION - FUNCTIONS:
-- A currently existing match of Hangman is automatically continued by default; however, the user has the ability to reset their match at any time.
-
-ROLE OF PHP AND JAVASCRIPT:
-- Nothing changed here.
-
-JQUERY APPLICATIONS:
-- jQuery was actually not used all that much in the code; most of the code written would be similar in terms of complexity as it would be with JavaScript because it involves game logic. Game logic is inherently complex regardless of its use.
-- jQuery animations were not used either; Hangman proved to be a simple game and animations associated with the website would be unnecessarily flashy. The game proved to be simple enough to observe without them.
-- AJAX fetch calls proved to be sufficient as it pertained to data submission and retrieval; jQuery once again seemed unnecessary for this task.
-
-SECURITY:
-- Passwords were hashed using PHP's default hashing algorithm.
-- Outside of that, most of what was in the document still stands: user inputs are sanitized, only one variable (username) is stored in the session, user inputs were used sparingly, variable names were kept hidden from the user, and inputs were verified where necessary. 
-
--->
-
 
 <!--
 Login page used for the Hangman application
