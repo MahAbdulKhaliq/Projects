@@ -1,0 +1,87 @@
+/*style.css - contains general style rules*/
+
+/*General elements (not affected by browser width)*/
+h1, h2{
+	color: steelblue;
+}
+
+h2{
+	background-color: lightblue;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+}
+
+h3{
+	color: white;
+	background-color: grey;
+	padding: 5px;
+}
+
+body{
+	font-family: Verdana, Arial, sans-serif;
+	display: grid;
+}
+
+nav ul{
+	list-style-type: none;
+	padding: 0;
+}
+
+table{
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+td, th{
+	border: 1px solid black;
+	padding: 5px;
+}
+
+footer{
+	text-align: center;
+}
+
+/*Elements that start to get affected by browser width*/
+
+@media only screen and (max-width: 700px){
+	
+	body{
+		grid-template-columns: auto;
+		-ms-grid-template-columns: auto;
+		grid-gap: 15px;
+	}
+	
+	.banner{
+		grid-column: 1;
+		-ms-grid-column: 1;
+		text-align: center;
+	}
+	
+	.banner img{
+		display: none;
+	}
+	
+}
+
+@media only screen and (min-width: 701px){
+	
+	nav li{
+		display: inline;
+	}
+	
+	
+	body{
+		grid-template-columns: 2.5fr 2fr 1.5fr;
+		-ms-grid-template-columns: 2.5fr 2fr 1.5fr;
+		grid-gap: 15px;
+	}
+	
+	.banner{
+		grid-column: 1 / span 3;
+		-ms-grid-column: 1 / span 3;
+		text-align: center;
+		margin: auto;
+	}
+
+}

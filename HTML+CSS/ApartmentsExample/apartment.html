@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+		<!--- Author: Mahmood Abdul-Khaliq, 000788833-->
+		<title>Apartment</title>
+		<link rel="stylesheet" href="style.css" type="text/css">
+		<style>
+			/*General elements (not affected by browser width)*/
+			
+			#notice{
+				background-color: lightyellow;
+			}
+			
+			.gallery{
+				display: flex;
+				flex-wrap: wrap;
+			}
+			
+			.flexcontainer{
+				height: 200px;
+				width: 200px;
+				margin: 20px;
+			}
+			
+			th{
+				background-color: lightgrey;
+			}
+			
+			/*Elements that start to get affected by browser width*/
+			
+			@media only screen and (max-width: 700px){
+								
+				.survey{
+					grid-row: 2;
+					-ms-grid-row: 2;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.welcome{
+					grid-row: 3;
+					-ms-grid-row: 3;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.services{
+					grid-row: 4;
+					-ms-grid-row: 4;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.location{
+					grid-row: 5;
+					-ms-grid-row: 5;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.content{
+					grid-row: 6;
+					-ms-grid-row: 6;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				footer{
+					grid-row: 7;
+					-ms-grid-row: 7;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+			}
+			
+			@media only screen and (min-width: 701px){
+				
+				.survey{
+					grid-row: 2;
+					-ms-grid-row: 2;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.services{
+					grid-row: 2 / span 2;
+					-ms-grid-row: 2 / span 2;
+					grid-column: 2;
+					-ms-grid-column: 2;
+				}
+				
+				.welcome{
+					grid-row: 3;
+					-ms-grid-row: 3;
+					grid-column: 1;
+					-ms-grid-column: 1;
+				}
+				
+				.location{
+					grid-row: 2 / span 2;
+					-ms-grid-row: 2 / span 2;
+					grid-column: 3;
+					-ms-grid-column: 3;
+				}
+				
+				.content{
+					grid-row: 4;
+					-ms-grid-row: 4;
+					grid-column: 1 / span 3;
+					-ms-grid-column: 1 / span 3;
+				}
+				
+				footer{
+					grid-row: 5;
+					-ms-grid-row: 5;
+					grid-column: 1 / span 3;
+					-ms-grid-column: 1 / span 3;
+				}
+			}
+		</style>
+	</head>
+	
+	<body>
+		<div class = "banner">
+			
+			<header>
+				<h1>Sandy and Leslie's Apartment</h1>
+			</header>
+		
+			
+			<p>Click a room for a more detailed view</p>
+			<img src = "images/floorplan.jpg" alt = "Floor plan" usemap = "#floorplan">
+			
+			<map name = "floorplan">
+				<area shape = "rect" coords = "93,28,252,121" href = "kitchen.html" alt = "Kitchen">
+				<area shape = "circle" coords = "318,78,55" href = "bathroom.html" alt = "Bathroom">
+				<area shape = "rect" coords = "415,22,547,139" href = "bedroom.html" alt = "Bedroom">
+				<area shape = "rect" coords = "387,142,561,250" href = "#" alt = "Detail view is not available" title = "Detail view is not available">
+				<area shape = "poly" coords = "30,122,199,122,272,197,255,213,253,249,20,250" href = "livingroom.html" alt = "Living room">
+				<area shape = "default" href = "apartment.html" alt = "Apartment">
+			</map>
+			
+			<nav>
+				<ul>
+					<li><a href = "apartment.html">Apartment</a></li>
+					<li><a href = "bedroom.html">Bedroom</a></li>
+					<li><a href = "bathroom.html">Bathroom</a></li>
+					<li><a href = "kitchen.html">Kitchen</a></li>
+					<li><a href = "livingroom.html">Living Room</a></li>
+					<li><a href = "#" title = "Detail view is not available">Office</a></li>
+				</ul>
+			</nav>
+			
+		</div>
+		
+		<div class = "survey">
+			<h2>Survey</h2>
+			<form method = "post" action = "https://csunix.mohawkcollege.ca/tooltime/showit.pl">
+				<label>How did you find out about this apartment? (check any that apply):</label><br>
+			
+				<input type = "checkbox" name = "reference" value = "web">
+				<label>Web search</label>
+				
+				<input type = "checkbox" name = "reference" value = "friend">
+				<label>Friend</label>
+				
+				<input type = "checkbox" name = "reference" value = "newspaper">
+				<label>Newspaper</label><br>
+				
+				
+				<input type = "submit">
+				<input type = "reset" value = "Reset form">
+			</form>
+		</div>
+		
+		<div class = "welcome">
+			<h2>Welcome Message</h2>
+			<audio controls>
+				<source src = "media/apartment.mp3" type = "audio/mpeg">
+				Your browser does not support the audio element.	
+			</audio>
+			<p>Transcript: Hello, welcome to our apartment! You'll really enjoy living here; the rooms are spacious and the apartment building amneties are fantastic. We look forward to hearing from you.</p>
+		</div>
+		
+		<div class = "services">
+			<h2>Apartment services:</h2>
+			
+			<table>
+				<tr>
+					<th>Service</th>
+					<th>Day/Hours</th>
+				</tr>
+				
+				<tr>
+					<td>Gym</td>
+					<td rowspan = "2">
+						<p>Monday-Friday: 6 A.M. - 10 P.M.</p>
+						<p>Saturday: 8 A.M. - 8 P.M.</p>
+						<p>Sunday: 8 A.M. - 5 P.M.</p>
+					</td>
+				</tr>
+				
+				
+				<tr>
+					<td>Pool</td>
+				</tr>
+				
+				<tr>
+					<td>Laundry</td>
+					<td>24/7</td>
+				</tr>
+				
+				<tr>
+					<td id = "notice" colspan = "2">Please do not allow people you do not know to use these facilities.</td>
+				</tr>
+				
+			</table>
+		</div>
+		
+		<div class = "location">
+			<h2>Location</h2>
+			<img src = "images/location.png" alt = "location">
+		</div>
+		
+		<div class = "content">
+			<h2>Gallery</h2>
+			<div class = "gallery">
+				
+				<div class = "flexcontainer">
+					<h3>Balcony</h3>
+					<img src = "thumbnails/balcony_sm.jpg" alt = "Balcony">
+				</div>
+				
+				<div class = "flexcontainer">
+					<h3>Bathroom</h3>
+					<img src = "thumbnails/bathroom_sm.jpg" alt = "Bathroom">
+				</div>
+				
+				<div class = "flexcontainer">
+					<h3>Bedroom</h3>
+					<img src = "thumbnails/bedroom_sm.jpg" alt = "Bedroom">
+				</div>
+				
+				<div class = "flexcontainer">
+					<h3>Dining Room</h3>
+					<img src = "thumbnails/diningroom_sm.jpg" alt = "Dining room">
+				</div>
+				
+				<div class = "flexcontainer">
+					<h3>Kitchen</h3>
+					<img src = "thumbnails/kitchen_sm.jpg" alt = "Kitchen">
+				</div>
+				
+				<div class = "flexcontainer">
+					<h3>Living room</h3>
+					<img src = "thumbnails/livingroom_sm.jpg" alt = "Living room">
+				</div>
+			</div>
+		</div>
+		
+		<footer>
+			<p>For more information, contact: <a href = "mailto:SandyAndLeslie@example.com">SandyAndLeslie@example.com</a></p>
+			<p>&copy; Sandy and Leslie 2019<p>
+		</footer>
+	</body>
+	
+</html>
