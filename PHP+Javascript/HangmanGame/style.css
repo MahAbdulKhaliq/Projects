@@ -1,0 +1,65 @@
+#main{
+    text-align: center;
+    margin-left: 25%;
+    margin-right: 25%;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    padding-bottom: 10px;
+    border: 1px solid black;
+    background-image: linear-gradient(to bottom right,yellow,lightskyblue);
+}
+div>h1,h2,h3,p{
+    font-family: Verdana;
+}
+
+#currentGuess{
+    font-family: Verdana;
+    font-weight: bold;
+    font-size: 2em;
+    letter-spacing: 5px;
+}
+
+#gameInfo{
+    font-family: Verdana;
+    font-weight: bold;
+    font-size: 1em;
+    text-decoration: underline;
+}
+
+button,#button,.button{
+    font-family: Verdana;
+    font-weight: bold;
+    background-color: Transparent;
+    border: 2px solid black;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    outline: none;
+}
+
+a,button,#button{
+    text-decoration: none;
+    color: black;
+    font-size: 1em;
+}
+
+#winMessage{
+    font-size: 3em;
+    font-weight: bold;
+    text-decoration: underline;
+}
+
+#historyGameBox{
+    border: 2px solid black;
+    width: 40%;
+    margin: auto;
+    margin-bottom: 10px;
+}
+
+#historyGameBox>p{
+    margin: 0px;
+}
+
+#historyTitle{
+    font-weight: bold;
+    font-size: 1.5em;
+}
