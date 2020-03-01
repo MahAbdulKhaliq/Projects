@@ -5,8 +5,9 @@ designed with CSS design in mind.
 If you want to run this on a web browser, please visit: https://csunix.mohawkcollege.ca/~000788833/HangmanGame/.
 If you are concerned about password security, please do not use your real password for the sake of testing.
 
-This project requires a personal server to run (I used XAMPP as it provided a version of phpMyAdmin); as such, the connect.php may need to
-be adjusted to allow for access within your internal database.
+This project requires a personal server to run (I used XAMPP as it provided a version of phpMyAdmin); as such, the connect.php may need to be adjusted to allow for access within your internal database.
+
+Sample .sql database files can be found within the db folder and can be implemented into your phpMyAdmin.
 
 ---
 
