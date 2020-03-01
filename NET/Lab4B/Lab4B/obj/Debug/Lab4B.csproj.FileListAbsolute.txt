@@ -1,0 +1,10 @@
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\bin\Debug\Lab4B.exe.config
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\bin\Debug\Lab4B.exe
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\bin\Debug\Lab4B.pdb
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.csprojAssemblyReference.cache
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.Form1.resources
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.Properties.Resources.resources
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.csproj.GenerateResource.cache
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.csproj.CoreCompileInputs.cache
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.exe
+K:\.NET Labs\Lab4\Lab4B\Lab4B\Lab4B\obj\Debug\Lab4B.pdb
