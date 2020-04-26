@@ -1,33 +1,102 @@
-﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head></head><body>
-
-	
+<!DOCTYPE html>
+<html>
+	<head>
+		<!-- Author: Mahmood Abdul-Khaliq #000788833-->
+		<meta charset="utf-8">
+		<title>City Recycle Information</title>		
 		
+		<style>
+			header{
+			text-align:center;
+			}
+			body{
+			padding-left: 10em;
+			padding-right: 10em;
+			padding-bottom: 5em;
+			}
+			.map{
+			float:right;
+			}
+			nav{
+			background-color: #FBEFB3;
+			line-height: 200%;
+			}
+			nav a{
+			color: #EC834A;
+			}
+			nav li{
+			list-style-type: none;
+			display: inline;
+			padding-right: 40px;
+			}
+			nav ul{
+			margin:0;
+			}
+			h1,h2,h2{
+			color:#14AB3F;
+			font-family: Verdana, sans-serif;
+			}
+			footer{
+			border-top: 5px solid;
+			text-align:center;
+			background: lightblue url(images/ricepaper.png);
+			}
+			footer li{
+			list-style-type: none;
+			}
+			footer ul{
+			padding:0;
+			margin:0;
+			}
+			.recycling{
+				list-style-image: url(images/greenarrow.png);
+				line-height: 3em;
+			}
+			.pickup{
+			color: #B8860B;
+			}
+			.title{
+			font-size:2em;
+			line-height: 3em;
+			text-align:center;
+			}
+			.align{
+			vertical-align:middle;
+			}
+			.underline{
+			text-decoration-line:underline;
+			text-decoration-style:double;
+			font-style:italic;
+			}
+			.circle{
+			list-style-type: circle;
+			}
+			.roman{
+			list-style-type: lower-roman;
+			}
+		</style>
+	</head>
 		
-				
-		
-		
-	
-		
-	
+	<body>
 		<header>
 			<nav>
 				<ul>
-					<li><a rel="noopener" href="#recycle" title="Recycle Centers">Recycle Centers</a></li>	
-					<li><a rel="noopener" href="#resources" title="Resources">Resources</a></li> 
-					<li><a rel="noopener" href="#composting" title="Composting">Composting</a></li> 
-					<li><a rel="noopener" href="#contact" title="Contact Us">Contact Us</a></li>
+					<li><a href="#recycle" title="Recycle Centers">Recycle Centers</a></li>	
+					<li><a href="#resources" title="Resources">Resources</a></li> 
+					<li><a href="#composting" title="Composting">Composting</a></li> 
+					<li><a href="#contact" title="Contact Us">Contact Us</a></li>
 				</ul>
 			</nav>
 			
 		</header>
 		
-		<section>
-			<h2 class="title"><img loading="lazy" class="align" src="images/earth_recycle.png" alt="Earth with recycling logo"/>Recycle<img loading="lazy" class="align" src="images/earth_recycle.png" alt="Earth with recycling logo"/></h2>
+		<section id = "recycle">
+			<h2 class="title"><img class="align" src="images/earth_recycle.png" alt="Earth with recycling logo">Recycle<img class="align" src="images/earth_recycle.png" alt="Earth with recycling logo"></h2>
 		</section>
 
 		<h1>What goes in a recycling box?</h1>
 		<p>Put the following items in a recycling box:</p>
-		<ul class="recycling">
+		<ul class = "recycling">
 			<li>Glass</li>
 			<li>Paper</li>
 			<li>Plastic</li>
@@ -35,30 +104,30 @@
 			<li>Cardboard (fold or break into small pieces)</li>
 		</ul>
 		
-		<img loading="lazy" class="map" src="images/recycle_map.png" title="Recycle Map" alt="Recycle Map"/>
-		<section>
+		<img class="map" src="images/recycle_map.png" title="Recycle Map" alt="Recycle Map">
+		<section id = "centers">
 		<h2>Community Recycling Centers</h2>
 		</section>
 		<p>Community Recycling Centers will accept good used clothing, furniture and household items for their on-site stores. Instead of calling for a bulk pickup, take used items to the Community Recycling Centers!</p>
 		
 		<ul class="circle">
-			<li><span class="underline">West Community Recycling Center</span>
+			<li><span class = "underline">West Community Recycling Center</span>
 			<ul>
 				<li>Monday: 10 am - 1 pm</li>
 				<li>Wednesday: 10 am - 5 pm</li>
 				<li>First Saturday of each month only: 9 am - 12 pm</li>
 			</ul>
-			</li><li><span class="underline">East Community Recycling Center</span>
+			<li><span class = "underline">East Community Recycling Center</span>
 			<ul>
 				<li>Tuesday: 10 am - 2 pm</li>
 				<li>Saturday: 10 am - 12 pm</li>
 			</ul>
-		</li></ul>
+		</ul>
 		
 		<h2>Large Item Pickup</h2>
 		<p>Large items can be picked up by the city garbage collection service. Please contact us directly for a to arrange a pickup time.</p>
 		
-		<p>Recycling is good for the environment. Our city has one of the best recycling programs in the world! <em class="pickup">You can pick up another recycling box at City Hall.</em> <em>Bulk items can also be picked up on your regular garbage collection day</em>.</p>
+		<p>Recycling is good for the environment. Our city has one of the best recycling programs in the world! <em class = "pickup">You can pick up another recycling box at City Hall.</em> <em>Bulk items can also be picked up on your regular garbage collection day</em>.</p>
 
 		<h2>Recycling Tips</h2>
 		<p>Get into the habit of recycling, and it will become second nature. Here are some tips that will help you:</p>
@@ -71,12 +140,12 @@
 				<li>Throw all metals lids into the recycling box.</li>
 				<li>Throw plastic lids that bend easily into the recycling box.</li>
 			</ol>
-			</li><li>Leaf and yard waste can be placed in paper bags. You can also use yard waste to make compost for your garden. <a rel="noopener" href="http://www.compost.org/English/ENGLISH_INDEX.htm">How to make compost</a>
-			</li><li>Green bins can be used for kitchen waste.
-		</li></ul>
+			<li>Leaf and yard waste can be placed in paper bags. You can also use yard waste to make compost for your garden. <a href="http://www.compost.org/English/ENGLISH_INDEX.htm">How to make compost</a>
+			<li>Green bins can be used for kitchen waste.
+		</ul>
 		
 		<footer>
-			<section>
+			<section id="contact">
 				<h2>Contact Us</h2>
 				<ul>
 					<li>Our City</li>
@@ -86,5 +155,5 @@
 				</ul>
 			</section>
 		</footer>
-	
-<script type="text/javascript" src="/d2l/common/math/MathML.js?v=20.20.2.20393-141 "></script><script type="text/javascript">document.addEventListener('DOMContentLoaded', function() { D2LMathML.DesktopInit('https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=MML_HTMLorMML','https://s.brightspace.com/lib/mathjax/2.6.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML','130'); });</script></body></html>
+	</body>
+</html>
