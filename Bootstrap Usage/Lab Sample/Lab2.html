@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<!-- Submitted by Mahmood Abdul-Khaliq #000788833 -->
+<html lang="en">
+<head>
+  <title>Lab 2 - Bootstrap Components</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+  <script>
+    //Enables popovers (disabled by default for performance reasons)
+    $(function () {
+      $('[data-toggle="popover"]').popover()
+    })
+
+    //Clicking on the dropdown will cause the dropdown's text to change    
+    $(function(){
+      $(".dropdown-item").click(function(){
+        if($(this).text() != "Reset default text")
+        {
+          $(".btn:first-child").text($(this).text());
+          $(".btn:first-child").val($(this).text());
+        }
+        else
+        {
+          $(".btn:first-child").text("Dropdown");
+          $(".btn:first-child").val("Dropdown");
+        }
+      });
+    });
+
+
+  </script>
+</head>
+<body>
+
+<div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="jumbotron text-center">
+        <h1>Lab 2 - Bootstrap Components</h1>
+        <p>Submitted By: Mahmood Abdul-Khaliq #000788833</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="jumbotron text-center">
+        <h1>Component 1 - Carousel (with controls)</h1>
+        <p>'Carousels' are slide-based elements that will scroll through the next slide periodically. Control elements may be established for the user to switch between the slides.</p> 
+      </div>
+    </div>
+    <div class="carousel-item">
+      <div class="jumbotron text-center">
+        <h1>Still going</h1>
+        <p>Weeeeeeee!</p> 
+      </div>
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
+  
+<div class="container">
+  <div class="row">
+    <div class="col">
+      <h3>Component 2 - Dropdowns</h3>
+      <div class="dropdown-ex">
+        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+          <a class="dropdown-item" href="#">Click me!</a>
+          <a class="dropdown-item" href="#">No, click me!</a>
+          <a class="dropdown-item" href="#">ME! Click me!!</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Reset default text</a>
+        </div>
+      </div>
+      <br /><p>Clicking on a dropdown element will reveal a further list of elements. Some custom JavaScript has been added such that clicking on an element will change the dropdown label to that value; clicking the 'Reset default text' will bring it back to the default 'Dropdown' text.</p>
+    </div>
+    <div class="col">
+      <h3>Component 3 - Collapse</h3>
+      <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        Click me for hidden content
+      </a>
+      <div class="collapse" id="collapseExample">
+        <div class="card card-body">
+          You found the hidden content!
+        </div>
+      </div>
+      <br /><br /><p>Clicking on the button above will reveal additional content that appears to be 'inside' the button. Clicking on the button again will hide the content.</p>
+    </div>
+    <div class="col">
+      <h3>Component 4 - Popovers</h3>        
+      <button type="button" class="btn btn-lg btn-danger" data-toggle="popover" title="Popover title" data-content="You have to click the popover to toggle this text off.">Toggle Popover On/Off</button>
+      <br /><br /><p>Clicking on the button above will reveal additional content in a popover that appears outside the button. Clicking on the button again will hide the popover.</p>
+    </div>
+    <div class="col">
+      <h3>Component 5 - Progress Bars</h3>        
+      <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
+      <br /><br /><p>Bootstrap also supports dynamic progress bars with pre-included transition elements between the next stage - this means that a sudden transition from 0-100% will have a smooth animation.</p>
+    </div>
+  </div>
+</div>
+
+
+<script>
+//Moves the progress bar over time
+var progressBar = $('.progress-bar');
+    var progressNumber = 0;
+    setInterval(function(){
+      progressNumber++;
+
+      //Sets the width of the progress bar equal to progressNumber
+      //The reason why progressNumber goes to 125 is to cause a visual delay between resets
+      //Resets to -15 to cause a delay from going to 0-100 due to progress bars
+      //having an innate transition delay
+      if (progressNumber >= 125){
+        progressNumber = -15;
+      }
+      progressBar.css('width', progressNumber + '%');
+      progressBar.attr('aria-valuenow',progressNumber);
+    },100);
+
+</script>
+</body>
+</html>

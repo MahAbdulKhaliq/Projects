@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Roll the Dice</title>
+  <script src="https://unpkg.com/react@16/umd/react.development.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@16/umd/react-dom.development.js" crossorigin></script>
+  <script src="https://unpkg.com/babel-standalone@6/babel.min.js"></script>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+
+<body>
+
+  <div id="root"></div>
+
+  <script type="text/babel">
+class DiceRoller extends React.Component {  
+  
+  constructor(props) {
+    super(props);
+    this.state = {
+      numDie: 1,
+      numbers: [],
+      min: 1,
+      max: 6,
+      number: 1
+    }
+  }
+
+  componentDidMount() {
+   this.setState({ number: this.generateNumber(this.state.min, this.state.max)})
+  }
+  
+  decrementNumSides = (max) => {
+    if (this.state.max > 2){
+      this.setState({max: this.state.max - 1})
+    } 
+  }
+
+  incrementNumSides = (max) => {
+    this.setState({max: this.state.max + 1})
+  }
+
+  decrementNumDie = (numDie) => {
+    if (this.state.numDie > 1){
+      this.setState({numDie: this.state.numDie - 1})
+    } 
+  }
+
+  incrementNumDie = (numDie) => {
+    this.setState({numDie: this.state.numDie + 1})
+  }
+  
+  generateNumber = (min, max) => {
+    return Math.floor(Math.random()*(max-min+1)+min)
+  }
+  
+  rollDie = () => {
+    this.state.numbers =  [];
+    for (var i = 0; i < this.state.numDie; i++){
+      this.state.number = this.generateNumber(this.state.min, this.state.max)
+      this.state.numbers.push(this.state.number);
+      this.setState({
+        number: this.generateNumber(this.state.min, this.state.max),
+      })
+    }
+  }
+
+  clear = () => {
+    this.setState({
+      number: 1,
+      numDie: 1,
+      numbers: [],
+      max: 6,
+    })
+  }
+  
+  render() {
+    var totalNum = 0;
+
+    for (var i = 0; i < this.state.numbers.length; i++){
+      totalNum += this.state.numbers[i];
+    }
+
+    const totalNumActive = (totalNum != 0);
+    
+    const listDie = this.state.numbers.map((number, i) =>
+      <li id = "dice" className="list-group-item">{'Dice ' + (i + 1) + ': '}{number}</li>
+    );
+    
+    return (
+      <div id="generator">
+        <div id="carousel" className="carousel slide" data-ride="carousel">
+          <div className="carousel-inner">
+            <div className="carousel-item active">
+              <div className="jumbotron text-center">
+                <h1>Lab 5 - Roll the Dice</h1>
+                <p>Submitted By: Mahmood Abdul-Khaliq #000788833</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className = "container">
+          <div className="row">
+            <div className="col-6">
+              <div className="text-center">
+              <h3>Number of Die: {this.state.numDie}</h3>
+                <button type="button" className="btn btn-dark btn-sm mx-2" onClick={this.decrementNumDie}>Remove</button>            
+                <button type="button" className="btn btn-primary btn-sm mx-2" onClick={this.incrementNumDie}>Add</button> 
+              </div>
+            </div>
+            <div className="col-6">
+              <div className="text-center">
+                <h3>Number of Sides: {this.state.max}</h3>
+                <button type="button" className="btn btn-dark btn-sm mx-2" onClick={this.decrementNumSides}>Down</button>            
+                <button type="button" className="btn btn-primary btn-sm mx-2" onClick={this.incrementNumSides}>Up</button>
+              </div> 
+            </div>
+          </div>
+        </div>
+        
+        <br />
+
+        <div id="inputContainer" className="text-center">
+          <button type="button" className="btn btn-success btn-lg mx-2" onClick={this.rollDie}>Roll</button>
+          <button type="button" className="btn btn-warning btn-lg mx-2" onClick={this.clear}>Reset</button>
+        </div>
+
+
+        <div className = "container">
+          <div className = "text-center">
+            <ul id="rNum" className="list-group pt-5">
+              {totalNumActive ? <li id = "total" className="list-group-item active font-weight-bold">Total: {totalNum}</li> : ""}
+              { listDie }
+            </ul>
+          </div>
+        </div>       
+      </div>
+    );
+  }
+}
+
+ReactDOM.render(
+  <DiceRoller />,
+  document.getElementById('root')
+);
+</script>
+</body>
+
+</html>
