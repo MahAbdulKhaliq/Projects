@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<!-- Submitted by Mahmood Abdul-Khaliq #000788833 -->
+<html lang="en">
+<head>
+  <title>Simple Interactive Map - COMP 10244 Project</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src='https://www.bing.com/api/maps/mapcontrol?key=Ag-9UmaOu3hCq2d2bxFTnt2ryCnUmD81o8_dEMuHCqbAFJ0TMwiY1IuhzPUjRaC6&callback=loadMapScenario' async defer></script>
+
+</head>
+<body>
+    <script type="text/javascript" src="js/Accommodations.js"></script>
+    <script type="text/javascript" src="js/City_Waterfalls.js"></script>
+    <script type="text/javascript" src="js/Libraries.js"></script>
+    <script type="text/javascript" src="js/Tourism_Points_of_Interest.js"></script>
+
+
+<div id="carouselHeader" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <div class="jumbotron text-center">
+        <h1>Simple Interactive Map</h1>
+        <p>Submitted By: Mahmood Abdul-Khaliq #000788833</p>
+      </div>
+    </div>
+    <div class="carousel-item">
+        <div class="jumbotron text-center">
+          <h1>Hamilton's Tourist Attractions & Locales</h1>
+          <p>This is a simple map designed to plot out various locales around Hamilton.</p>
+        </div>
+    </div>
+    <div class="carousel-item">
+      <div class="jumbotron text-center">
+        <h1>Getting Started</h1>
+        <p>Click on a pushpin on the map to see more information about a locale.</p>
+      </div>
+  </div>
+    <div class="carousel-item">
+        <div class="jumbotron text-center">
+          <h1>Got an opinion about something?</h1>
+          <p>Leave a like (or dislike) and a comment on a locale!</p>
+        </div>
+    </div>
+    <a class="carousel-control-prev" href="#carouselHeader" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+    </a>
+    <a class="carousel-control-next" href="#carouselHeader" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+    </a>
+</div>
+
+<div class="container-fluid">
+    <div class="row">    
+        <div class="col">
+		    <div class="input-group">      
+                <input type="text" class="form-control" name="search" placeholder="Search by name or key term here" id="searchTerm">
+                <button class="btn btn-secondary" type="button" onClick="initiateSearch()">Search</button>
+                <button class="btn btn-danger" type="button" onClick="filterpins('all')">Clear</button>
+            </div>
+        </div>
+	</div>
+</div>
+
+<div id = "mapContainer" class = "container-fluid mt-2">
+    <div id='myMap' style='width: 100%; height: 60vh;'></div>
+    <script type='text/javascript'>
+        
+        //Initialization
+        var map;
+
+        function postComment(){
+            var comment = document.getElementById('commentText').value;
+            if (comment != ""){
+                document.getElementById('comment').innerHTML = comment;
+                document.getElementById('commentButton').disabled = true;
+                document.getElementById('commentButton').innerHTML = "Comment posted!";
+            }            
+        }
+
+        function addLike(){
+            document.getElementById('likes').innerHTML = 1;
+            document.getElementById('likeButton').disabled = true;
+            document.getElementById('dislikeButton').disabled = true;
+        }
+
+        function addDislike(){
+            document.getElementById('dislikes').innerHTML = 1;
+            document.getElementById('dislikeButton').disabled = true;
+            document.getElementById('likeButton').disabled = true;
+        }
+        
+
+        function loadMapScenario() {
+            var map = new Microsoft.Maps.Map(document.getElementById('myMap'),
+            {center: new Microsoft.Maps.Location(43.2557, -79.871)});            
+        
+
+            //Create an infobox at the center of the map but don't show it.
+            infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+              visible: false
+            });
+
+            //Assign the infobox to a map instance.
+            infobox.setMap(map);
+
+            // Populates 'accomodations' pushpins
+            for (i = 0; i < accomodations.length; i++)
+                {
+
+                var location = new Microsoft.Maps.Location(
+                                        accomodations[i].LATITUDE,
+                                        accomodations[i].LONGITUDE
+                                        );
+                                        
+                // create a pushpin at this location, give it a label with 
+                // the fire station name
+                var pushpin = new Microsoft.Maps.Pushpin(
+                                location
+                                ,{color: 'forestgreen'} );
+                                
+                //Store some metadata with the pushpin.
+                pushpin.metadata = {
+                    description: 
+                    "Name: " + "<a href='" + accomodations[i].WEBSITE_URL + "' target='_blank'>" +
+                    accomodations[i].NAME + "</a><br />" +
+                    "Address : " +accomodations[i].ADDRESS + "<br />" +
+                    "Category: " + accomodations[i].CATEGORY + "<br />" +
+                    "Community : " +accomodations[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + accomodations[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + accomodations[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + accomodations[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + accomodations[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+                
+                Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+                // add the pushpin to the map
+                map.entities.push(pushpin);
+                }
+
+            // Populates 'waterfall' pushpins
+            for (i = 0; i < waterfalls.length; i++)
+                {
+
+                var location = new Microsoft.Maps.Location(
+                                        waterfalls[i].LATITUDE,
+                                        waterfalls[i].LONGITUDE
+                                        );
+                                        
+                // create a pushpin at this location, give it a label with 
+                // the fire station name
+                var pushpin = new Microsoft.Maps.Pushpin(
+                                location
+                                ,{color: 'cornflowerblue'} );
+                                
+                //Store some metadata with the pushpin.
+                pushpin.metadata = {
+                    description: 
+                    "Name: " + waterfalls[i].NAME + "<br />" +
+                    "Cluster Area: " + waterfalls[i].CLUSTER_AREA + "<br />" +
+                    "Community : " + waterfalls[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + waterfalls[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + waterfalls[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + waterfalls[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + waterfalls[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+                
+                Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+                // add the pushpin to the map
+                map.entities.push(pushpin);
+                }
+
+            //Populates 'libraries' pushpins
+            for (i = 0; i < libraries.length; i++)
+                {
+
+                var location = new Microsoft.Maps.Location(
+                                        libraries[i].LATITUDE,
+                                        libraries[i].LONGITUDE
+                                        );
+                                        
+                // create a pushpin at this location, give it a label with 
+                // the fire station name
+                var pushpin = new Microsoft.Maps.Pushpin(
+                                location
+                                ,{color: 'goldenrod'} );
+                                
+                //Store some metadata with the pushpin.
+                pushpin.metadata = {
+                    description: 
+                    "Name: " + libraries[i].NAME + "<br />" +
+                    "Address : " + libraries[i].ADDRESS + "<br />" +
+                    "Community : " + libraries[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + libraries[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + libraries[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + libraries[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + libraries[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+                
+                Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+                // add the pushpin to the map
+                map.entities.push(pushpin);
+                }
+                
+            //Populates 'tourism' pushpins
+            for (i = 0; i < tourism.length; i++)
+                {
+
+                var location = new Microsoft.Maps.Location(
+                                        tourism[i].LATITUDE,
+                                        tourism[i].LONGITUDE
+                                        );
+                                        
+                // create a pushpin at this location, give it a label with 
+                // the fire station name
+                var pushpin = new Microsoft.Maps.Pushpin(
+                                location
+                                ,{color: 'firebrick'} );
+                                
+                //Store some metadata with the pushpin.
+                pushpin.metadata = {
+                    description: 
+                    "Title: " + "<a href='" + tourism[i].URL + "' target='_blank'>" +
+                    tourism[i].TITLE + "</a><br />" +
+                    "Address : " + tourism[i].ADDRESS + "<br />" +
+                    "Phone : " + tourism[i].PHONE + "<br />" +
+                    "Fax : " + tourism[i].FAX + "<br />" +
+                    "Email : " + tourism[i].EMAIL + "<br />" +
+                    "Description : " + tourism[i].DESCRIPTION + "<br />" +
+                    "Likes: <span id = 'likes'>" + tourism[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + tourism[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + tourism[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + tourism[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+                
+                Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+                // add the pushpin to the map
+                map.entities.push(pushpin);
+                }
+            }
+
+
+        function initiateSearch(){
+            var searchString = document.getElementById('searchTerm').value.toLowerCase();
+            searchpins(searchString);
+        }
+        function searchpins(filterstr)
+		    {
+            var map = new Microsoft.Maps.Map(
+						document.getElementById('myMap'), 
+						{center: new Microsoft.Maps.Location(43.2557, -79.871) }); 
+
+            
+            //Create an infobox at the center of the map but don't show it.
+            infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+              visible: false
+            });
+
+            //Assign the infobox to a map instance.
+            infobox.setMap(map);
+			
+           for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+              var pushpin = map.entities.get(i);
+              if (pushpin instanceof Microsoft.Maps.Pushpin) {
+                map.entities.removeAt(i);
+            }
+           }
+    
+              
+            //Filters based off of type for each one of the data sets
+			for (i = 0; i < accomodations.length; i++)
+			{
+
+              if (accomodations[i].NAME.toLowerCase().includes(filterstr) || accomodations[i].ADDRESS.toLowerCase().includes(filterstr) || accomodations[i].CATEGORY.toLowerCase().includes(filterstr) || accomodations[i].COMMUNITY.toLowerCase().includes(filterstr))
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					accomodations[i].LATITUDE,
+					  				accomodations[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'forestgreen'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + "<a href='" + accomodations[i].WEBSITE_URL + "' target='_blank'>" +
+                    accomodations[i].NAME + "</a><br />" +
+                    "Address : " +accomodations[i].ADDRESS + "<br />" +
+                    "Category: " + accomodations[i].CATEGORY + "<br />" +
+                    "Community : " +accomodations[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + accomodations[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + accomodations[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + accomodations[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + accomodations[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < waterfalls.length; i++)
+			{
+
+              if (waterfalls[i].NAME.toLowerCase().includes(filterstr) || waterfalls[i].CLUSTER_AREA.toLowerCase().includes(filterstr) || waterfalls[i].COMMUNITY.toLowerCase().includes(filterstr))
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					waterfalls[i].LATITUDE,
+					  				waterfalls[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'cornflowerblue'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + waterfalls[i].NAME + "<br />" +
+                    "Cluster Area: " + waterfalls[i].CLUSTER_AREA + "<br />" +
+                    "Community : " + waterfalls[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + waterfalls[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + waterfalls[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + waterfalls[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + waterfalls[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < libraries.length; i++)
+			{
+
+              if (libraries[i].NAME.toLowerCase().includes(filterstr) || libraries[i].ADDRESS.toLowerCase().includes(filterstr) || libraries[i].COMMUNITY.toLowerCase().includes(filterstr))
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					libraries[i].LATITUDE,
+					  				libraries[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'goldenrod'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + libraries[i].NAME + "<br />" +
+                    "Address : " + libraries[i].ADDRESS + "<br />" +
+                    "Community : " + libraries[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + libraries[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + libraries[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + libraries[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + libraries[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < tourism.length; i++)
+			{
+
+              if (tourism[i].TITLE.toLowerCase().includes(filterstr) || tourism[i].ADDRESS.toLowerCase().includes(filterstr) || tourism[i].DESCRIPTION.toLowerCase().includes(filterstr))
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					tourism[i].LATITUDE,
+					  				tourism[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'firebrick'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Title: " + "<a href='" + tourism[i].URL + "' target='_blank'>" +
+                    tourism[i].TITLE + "</a><br />" +
+                    "Address : " + tourism[i].ADDRESS + "<br />" +
+                    "Phone : " + tourism[i].PHONE + "<br />" +
+                    "Fax : " + tourism[i].FAX + "<br />" +
+                    "Email : " + tourism[i].EMAIL + "<br />" +
+                    "Description : " + tourism[i].DESCRIPTION + "<br />" +
+                    "Likes: <span id = 'likes'>" + tourism[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + tourism[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + tourism[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + tourism[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+		    }
+          }
+          
+          function filterpins(filterstr)
+		      {
+            var map = new Microsoft.Maps.Map(
+						document.getElementById('myMap'), 
+						{center: new Microsoft.Maps.Location(43.2557, -79.871) }); 
+
+            
+            //Create an infobox at the center of the map but don't show it.
+            infobox = new Microsoft.Maps.Infobox(map.getCenter(), {
+              visible: false
+            });
+
+            //Assign the infobox to a map instance.
+            infobox.setMap(map);
+			
+           for (var i = map.entities.getLength() - 1; i >= 0; i--) {
+              var pushpin = map.entities.get(i);
+              if (pushpin instanceof Microsoft.Maps.Pushpin) {
+                map.entities.removeAt(i);
+            }
+           }
+    
+              
+            //Filters based off of type for each one of the data sets
+            for (i = 0; i < accomodations.length; i++)
+            {
+
+                    if (filterstr == accomodations[i].TYPE || filterstr == "all")
+              {
+                var location = new Microsoft.Maps.Location(
+                          accomodations[i].LATITUDE,
+                          accomodations[i].LONGITUDE
+                        );
+                        
+              // create a pushpin at this location, give it a label with 
+              // the fire station name
+              var pushpin = new Microsoft.Maps.Pushpin(
+                      location
+                      ,{color: 'forestgreen'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + "<a href='" + accomodations[i].WEBSITE_URL + "' target='_blank'>" +
+                    accomodations[i].NAME + "</a><br />" +
+                    "Address : " +accomodations[i].ADDRESS + "<br />" +
+                    "Category: " + accomodations[i].CATEGORY + "<br />" +
+                    "Community : " +accomodations[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + accomodations[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + accomodations[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + accomodations[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + accomodations[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < waterfalls.length; i++)
+			{
+
+              if (filterstr == waterfalls[i].TYPE || filterstr == "all")
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					waterfalls[i].LATITUDE,
+					  				waterfalls[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'cornflowerblue'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + waterfalls[i].NAME + "<br />" +
+                    "Cluster Area: " + waterfalls[i].CLUSTER_AREA + "<br />" +
+                    "Community : " + waterfalls[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + waterfalls[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + waterfalls[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + waterfalls[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + waterfalls[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < libraries.length; i++)
+			{
+
+              if (filterstr == libraries[i].TYPE || filterstr == "all")
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					libraries[i].LATITUDE,
+					  				libraries[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'goldenrod'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Name: " + libraries[i].NAME + "<br />" +
+                    "Address : " + libraries[i].ADDRESS + "<br />" +
+                    "Community : " + libraries[i].COMMUNITY + "<br />" +
+                    "Likes: <span id = 'likes'>" + libraries[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + libraries[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + libraries[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + libraries[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+            }
+            
+            for (i = 0; i < tourism.length; i++)
+			{
+
+              if (filterstr == tourism[i].TYPE || filterstr == "all")
+			  {
+			    var location = new Microsoft.Maps.Location(
+				  					tourism[i].LATITUDE,
+					  				tourism[i].LONGITUDE
+									);
+									
+			  // create a pushpin at this location, give it a label with 
+			  // the fire station name
+			  var pushpin = new Microsoft.Maps.Pushpin(
+							  location
+							  ,{color: 'firebrick'} );
+							  
+			  //Store some metadata with the pushpin.
+              pushpin.metadata = {
+                    description: 
+                    "Title: " + "<a href='" + tourism[i].URL + "' target='_blank'>" +
+                    tourism[i].TITLE + "</a><br />" +
+                    "Address : " + tourism[i].ADDRESS + "<br />" +
+                    "Phone : " + tourism[i].PHONE + "<br />" +
+                    "Fax : " + tourism[i].FAX + "<br />" +
+                    "Email : " + tourism[i].EMAIL + "<br />" +
+                    "Description : " + tourism[i].DESCRIPTION + "<br />" +
+                    "Likes: <span id = 'likes'>" + tourism[i].LIKES + "</span>  <button class='btn btn-success' type='button' onClick='addLike()' id='likeButton'>Like</button><br />" +
+                    "Dislikes: <span id = 'dislikes'>" + tourism[i].DISLIKES + "</span>  <button class='btn btn-danger' type='button' onClick='addDislike()' id='dislikeButton'>Dislike</button><br />" +
+                    "Type: " + tourism[i].TYPE + "<br />" +
+                    "Recent Comment: <p id = 'comment'>" + tourism[i].COMMENT + "</p><br />" +
+                    "<input type='text' class='form-control' name='search' placeholder='Add a comment here' id='commentText'>" +
+                    "<button class='btn btn-success' type='button' onClick='postComment()' id='commentButton'>Post Comment</button>"
+                };
+			
+			  Microsoft.Maps.Events.addHandler(pushpin, 'click', pushpinClicked);
+
+			  // add the pushpin to the map
+			  map.entities.push(pushpin);
+            }			  
+		    }
+		  }
+
+        function pushpinClicked(e) {
+		    //Make sure the infobox has metadata to display.
+			if (e.target.metadata) {
+            //Set the infobox options with the metadata of the pushpin.
+            console.log(e.target.metadata.description);
+			infobox.setOptions({
+                maxHeight: 350,
+                maxWidth: 450,
+			  location: e.target.getLocation(),
+			  description: e.target.metadata.description,
+			  visible: true
+			});
+			}
+		  }
+		  
+    </script>
+</div>
+
+<footer>
+<div class = "fixed-bottom">
+    <div class = "container-fluid">
+        <div id="accordion">
+            <div class="card">
+            <div class="card-header" id="headingOne">
+                <h5 class="mb-0">
+                    <div class = "text-center">
+                        <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            Filters
+                        </button>
+                    </div>
+                </h5>
+            </div>
+        
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                          <div class="col-md-2">
+                            <button type="button" class="btn btn-primary" style="width:100%; height:100%" onclick="filterpins('all')">All</button>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="button" class="btn btn-success" style="width:100%; height:100%" onclick="filterpins('Accomodations')">Accomodations</button>
+                          </div>
+                          <div class="col-md-2">
+                            <button type="button" class="btn btn-warning" style="width:100%; height:100%" onclick="filterpins('Libraries')">Libraries</button>
+                          </div>
+                          <div class="col-md-3">
+                            <button type="button" class="btn btn-danger" style="width:100%; height:100%" onclick="filterpins('Tourism Points of Interest')">Tourism Points of Interest</button>
+                          </div>
+                          <div class="col-md-3">
+                            <button type="button" class="btn btn-info" style="width:100%; height:100%"  onclick="filterpins('City Waterfalls')">Waterfalls</button>
+                          </div>
+                        </div>
+                      </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</div>
+</footer>
+</body>
+
+
+<script>
+
+
+</script>
+
+</html>
